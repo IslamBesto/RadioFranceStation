@@ -1,0 +1,8 @@
+query GetBrandById($id: StationsEnum!) {
+    brand(id: $id) {
+        id
+        title
+        baseline
+        description
+    }
+}

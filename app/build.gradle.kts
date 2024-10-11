@@ -7,7 +7,8 @@ plugins {
 
 apollo {
     service("service") {
-        packageName.set("com.example.radiofrancestation")
+        schemaFile.set(file("src/main/com/example/schema.graphqls"))
+        packageName.set("com.example")
     }
 }
 
@@ -56,6 +57,7 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
+    implementation(libs.apollo.runtime)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
