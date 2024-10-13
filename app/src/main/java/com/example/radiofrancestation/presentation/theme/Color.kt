@@ -1,4 +1,4 @@
-package com.example.radiofrancestation.ui.theme
+package com.example.radiofrancestation.presentation.theme
 
 import androidx.compose.ui.graphics.Color
 

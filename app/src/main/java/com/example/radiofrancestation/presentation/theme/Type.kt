@@ -1,4 +1,4 @@
-package com.example.radiofrancestation.ui.theme
+package com.example.radiofrancestation.presentation.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle
