@@ -1,11 +1,11 @@
 package com.example.radiofrancestation.data
 
 import com.apollographql.apollo.ApolloClient
-import com.example.GetBrandByIdQuery
 import com.example.GetBrandsQuery
+import com.example.GetShowsByIdQuery
 import com.example.radiofrancestation.domain.BrandClient
-import com.example.radiofrancestation.domain.model.BrandDetailDomain
 import com.example.radiofrancestation.domain.model.BrandDomain
+import com.example.radiofrancestation.domain.model.ShowDomain
 import com.example.type.StationsEnum
 
 class ApolloBrandClient(
@@ -20,12 +20,12 @@ class ApolloBrandClient(
             ?.mapNotNull { it?.toBrandDomain() } ?: emptyList()
     }
 
-    override suspend fun getBrandById(id: String): BrandDetailDomain {
+    override suspend fun getShowsById(id: String): List<ShowDomain> {
         return apolloClient
-            .query(GetBrandByIdQuery(StationsEnum.valueOf(id)))
+            .query(GetShowsByIdQuery(StationsEnum.valueOf(id), first = 10))
             .execute()
             .data
-            ?.brand
-            ?.toBrandDetailDomain() ?: throw IllegalStateException("Brand not found")
+            ?.shows
+            ?.toShowDetailDomain() ?: emptyList()
     }
 }

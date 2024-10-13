@@ -1,0 +1,16 @@
+query GetShowsById($id: StationsEnum!, $first: Int!) {
+    shows(station: $id, first: $first) {
+        edges {
+            node {
+                title
+                diffusionsConnection {
+                    edges {
+                        node {
+                            title
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

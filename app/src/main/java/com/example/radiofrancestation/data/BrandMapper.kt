@@ -1,16 +1,23 @@
 package com.example.radiofrancestation.data
 
-import com.example.GetBrandByIdQuery
 import com.example.GetBrandsQuery
-import com.example.radiofrancestation.domain.model.BrandDetailDomain
+import com.example.GetShowsByIdQuery
 import com.example.radiofrancestation.domain.model.BrandDomain
+import com.example.radiofrancestation.domain.model.ShowDomain
 
-fun GetBrandByIdQuery.Brand.toBrandDetailDomain() = BrandDetailDomain(
-    id = id,
-    title = title,
-    description = description,
-    baseLine = baseline
-)
+fun GetShowsByIdQuery.Shows.toShowDetailDomain(): List<ShowDomain> {
+    return edges?.mapNotNull { edge ->
+        edge?.node?.let { node ->
+            val episodeCount = node.diffusionsConnection?.edges?.size ?: 0
+
+            ShowDomain(
+                title = node.title,
+                episodeCount = episodeCount
+            )
+        }
+    } ?: emptyList()
+}
+
 
 fun GetBrandsQuery.Brand.toBrandDomain() = BrandDomain(
     id = id,
