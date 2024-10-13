@@ -21,4 +21,7 @@ dependencyResolutionManagement {
 
 rootProject.name = "RadioFranceStation"
 include(":app")
- 
+include(":data")
+include(":di")
+include(":domain")
+include(":presentation")
