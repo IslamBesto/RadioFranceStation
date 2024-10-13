@@ -22,8 +22,12 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.dp
+import com.example.radiofrancestation.R
+import com.example.radiofrancestation.presentation.theme.Spacing.Spacing16dp
+import com.example.radiofrancestation.presentation.theme.Spacing.Spacing4dp
+import com.example.radiofrancestation.presentation.theme.Spacing.Spacing8dp
 import com.example.radiofrancestation.presentation.viewmodel.ShowsViewModel
 import com.example.radiofrancestation.presentation.viewmodel.state.ShowUiModel
 import com.example.radiofrancestation.presentation.viewmodel.state.ShowsUiState
@@ -39,7 +43,7 @@ fun StationShowsScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text(text = "Programmes") }
+                title = { Text(text = stringResource(R.string.shows_toolbar_title)) }
             )
         },
         modifier = Modifier.fillMaxSize()
@@ -59,15 +63,15 @@ private fun StationShowsScreen(
     when (showsUiState) {
         is ShowsUiState.Loading -> {
             Box(modifier = modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                Text("Loading...")
+                Text(stringResource(R.string.loading))
             }
         }
 
         is ShowsUiState.Success -> LazyColumn(
             modifier = modifier
                 .fillMaxSize()
-                .padding(16.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
+                .padding(Spacing16dp),
+            verticalArrangement = Arrangement.spacedBy(Spacing16dp)
         ) {
             items(showsUiState.shows) { show ->
                 ShowItem(show = show)
@@ -81,8 +85,8 @@ private fun ShowItem(show: ShowUiModel) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .background(color = Color(0xFF292B35), shape = RoundedCornerShape(16.dp))
-            .padding(16.dp)
+            .background(color = Color(0xFF292B35), shape = RoundedCornerShape(Spacing16dp))
+            .padding(Spacing16dp)
     ) {
         Row(
             horizontalArrangement = Arrangement.SpaceBetween,
@@ -98,14 +102,17 @@ private fun ShowItem(show: ShowUiModel) {
                 modifier = Modifier.weight(1f)
             )
 
-            Spacer(modifier = Modifier.width(8.dp))
-            if(show.episodeCount > 0) {
+            Spacer(modifier = Modifier.width(Spacing8dp))
+            if (show.episodeCount > 0) {
                 Text(
-                    text = "${show.episodeCount} Episodes",
+                    text = stringResource(
+                        R.string.show_episode_count,
+                        show.episodeCount
+                    ),
                     style = MaterialTheme.typography.bodyMedium.copy(color = Color.White),
                     modifier = Modifier
-                        .background(Color(0xFF52545B), shape = RoundedCornerShape(8.dp))
-                        .padding(horizontal = 8.dp, vertical = 4.dp)
+                        .background(Color(0xFF52545B), shape = RoundedCornerShape(Spacing8dp))
+                        .padding(horizontal = Spacing8dp, vertical = Spacing4dp)
                 )
             }
         }

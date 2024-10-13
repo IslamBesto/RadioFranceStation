@@ -11,9 +11,11 @@ import androidx.navigation.navArgument
 import com.example.radiofrancestation.presentation.ui.StationListScreen
 import com.example.radiofrancestation.presentation.ui.StationShowsScreen
 
+const val PARAM_STATION_ID = "stationId"
+
 enum class Routes(val title: String) {
     STATIONS(title = "stationList"),
-    SHOWS(title = "showList/{stationId}")
+    SHOWS(title = "showList/{$PARAM_STATION_ID}")
 }
 
 fun Routes.createRoute(
@@ -36,12 +38,12 @@ fun Router(
         }
         composable(route = Routes.SHOWS.title,
             arguments = listOf(
-                navArgument("stationId") {
+                navArgument(PARAM_STATION_ID) {
                     type = NavType.StringType
                 }
             )
         ) { backStackEntry ->
-            backStackEntry.arguments?.getString("stationId")
+            backStackEntry.arguments?.getString(PARAM_STATION_ID)
             StationShowsScreen()
         }
     }

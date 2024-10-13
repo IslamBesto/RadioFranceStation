@@ -4,6 +4,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.radiofrancestation.domain.usecase.GetShowsByIdUseCase
+import com.example.radiofrancestation.presentation.PARAM_STATION_ID
 import com.example.radiofrancestation.presentation.toShowUiModel
 import com.example.radiofrancestation.presentation.viewmodel.state.ShowsUiState
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -15,7 +16,7 @@ class ShowsViewModel(
     private val getShowsByIdUseCase: GetShowsByIdUseCase,
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
-    private val stationId = savedStateHandle.get<String>("stationId").orEmpty()
+    private val stationId = savedStateHandle.get<String>(PARAM_STATION_ID).orEmpty()
     private val _uiState = MutableStateFlow<ShowsUiState>(ShowsUiState.Loading)
     val uiState = _uiState.asStateFlow()
 

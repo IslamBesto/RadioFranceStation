@@ -24,14 +24,17 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.example.radiofrancestation.R
 import com.example.radiofrancestation.presentation.Routes
 import com.example.radiofrancestation.presentation.createRoute
 import com.example.radiofrancestation.presentation.theme.RadioFranceStationTheme
+import com.example.radiofrancestation.presentation.theme.Spacing.Spacing16dp
+import com.example.radiofrancestation.presentation.theme.Spacing.Spacing8dp
 import com.example.radiofrancestation.presentation.viewmodel.StationsViewModel
 import com.example.radiofrancestation.presentation.viewmodel.state.StationUiModel
 import com.example.radiofrancestation.presentation.viewmodel.state.StationsUiState
@@ -49,7 +52,7 @@ fun StationListScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text(text = "Stations") }
+                title = { Text(text = stringResource(R.string.station_toolbar_title)) }
             )
         },
         modifier = Modifier.fillMaxSize()
@@ -71,19 +74,18 @@ private fun StationListScreen(
     when (stationUiState) {
         is StationsUiState.Loading -> {
             Box(modifier = modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                Text("Loading...")
+                Text(stringResource(R.string.loading))
             }
         }
 
         is StationsUiState.Success -> {
             LazyColumn(
                 modifier = modifier.fillMaxSize(),
-                contentPadding = PaddingValues(16.dp),
-                verticalArrangement = Arrangement.spacedBy(16.dp)
+                contentPadding = PaddingValues(Spacing16dp),
+                verticalArrangement = Arrangement.spacedBy(Spacing16dp)
             ) {
                 items(stationUiState.stations) { station ->
-                    StationItem(station = station, onClick = { backgroundColor ->
-                        val colorHex = backgroundColor.toHex()
+                    StationItem(station = station, onClick = {
                         navController.navigate(Routes.SHOWS.createRoute(station.id))
                     })
                 }
@@ -93,21 +95,21 @@ private fun StationListScreen(
 }
 
 @Composable
-private fun StationItem(station: StationUiModel, onClick: (backgroundColor: Color) -> Unit) {
+private fun StationItem(station: StationUiModel, onClick: () -> Unit) {
     val backgroundColor = rememberRandomColor()
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .background(color = backgroundColor, shape = RoundedCornerShape(16.dp))
-            .padding(16.dp)
-            .clickable { onClick(backgroundColor) }
+            .background(color = backgroundColor, shape = RoundedCornerShape(Spacing16dp))
+            .padding(Spacing16dp)
+            .clickable { onClick() }
     ) {
         Column {
             Text(
                 text = station.title,
                 style = MaterialTheme.typography.headlineMedium.copy(fontWeight = FontWeight.Bold)
             )
-            Spacer(modifier = Modifier.height(8.dp))
+            Spacer(modifier = Modifier.height(Spacing8dp))
             Text(
                 text = station.baseLine.orEmpty(),
                 style = MaterialTheme.typography.bodyLarge
@@ -125,10 +127,6 @@ private fun rememberRandomColor(): Color {
         blue = random.nextFloat(),
         alpha = 1f
     )
-}
-
-private fun Color.toHex(): String {
-    return String.format("#%06X", 0xFFFFFF and this.value.toInt())
 }
 
 @Preview(showBackground = true)
